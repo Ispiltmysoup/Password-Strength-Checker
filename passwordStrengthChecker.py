@@ -19,14 +19,14 @@ def passwordCheck(password):
             strength +=3
     return strength
 
-def passwordCracker(password):
-    length = len(password)
-    guess = ['!','"']
-    x = 34
-    while guess != password:
-        print(guess[0])
-        guess[0] = chr(x)
-        print(guess[0])
+# def passwordCracker(password):
+#     length = len(password)
+#     guess = ['!','"']
+#     x = 34
+#     while guess != password:
+#         print(guess[0])
+#         guess[0] = chr(x)
+#         print(guess[0])
 
 
 
@@ -78,7 +78,7 @@ while running:
     inputRect.w = max(300, textSurface.get_width()+10)
     strength = passwordCheck(userPassword)
 
-    passwordCracker(userPassword)
+    # passwordCracker(userPassword)
 
     if strength == -1:
         colour = "red"
