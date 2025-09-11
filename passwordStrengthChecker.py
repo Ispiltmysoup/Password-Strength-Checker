@@ -8,7 +8,7 @@ def passwordCheck(password):
         asciiValue = ord(password[index])
         index+=1
         if asciiValue == 32:
-            print("Spaces are not allowed")
+            return -1
         elif 97 <= asciiValue <123:
             strength+=1
         elif 65<= asciiValue <91:
@@ -18,6 +18,19 @@ def passwordCheck(password):
         else:
             strength +=3
     return strength
+
+def passwordCracker(password):
+    length = len(password)
+    guess = ['!','"']
+    x = 34
+    while guess != password:
+        print(guess[0])
+        guess[0] = chr(x)
+        print(guess[0])
+
+
+
+
 #GUI element
 
 #Window parameters
@@ -37,7 +50,11 @@ passwordTxt = font.render("Password:", True, "white")
 passwordTxtRect = passwordTxt.get_rect()
 passwordTxtRect.midright = (450, 360)
 
-usrPassword = ''
+errorTxt = font.render("No spaces allowed!", True, "white")
+errorTxtRect = errorTxt.get_rect()
+errorTxtRect.midtop = (625, 372)
+
+userPassword = ''
 inputRect = pygame.Rect(475,340,140,32)
 colour = "white"
 while running:
@@ -47,21 +64,26 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_BACKSPACE:
-                usrPassword = usrPassword[:-1]
+                userPassword = userPassword[:-1]
             else:
-                usrPassword += event.unicode
+                userPassword += event.unicode
 
 
     screen.fill("grey")
     screen.blit(text, textRect)
     screen.blit(passwordTxt,passwordTxtRect)
     pygame.draw.rect(screen, colour, inputRect)
-    textSurface = font.render(usrPassword, True, (0,0,0))
+    textSurface = font.render(userPassword, True, (0,0,0))
     screen.blit(textSurface, inputRect)
-    inputRect.w = max(100, textSurface.get_width()+10)
-    strength = passwordCheck(usrPassword)
+    inputRect.w = max(300, textSurface.get_width()+10)
+    strength = passwordCheck(userPassword)
 
-    if strength == 0:
+    passwordCracker(userPassword)
+
+    if strength == -1:
+        colour = "red"
+        screen.blit(errorTxt,errorTxtRect)
+    elif strength == 0:
         colour = "white"
     elif strength < 6:
         colour = (247, 97, 84)
